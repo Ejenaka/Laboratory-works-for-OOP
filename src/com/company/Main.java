@@ -11,7 +11,7 @@ public class Main {
 
         // Task 3
         int[] arrayTask1 = {1,2,3,4,5,6};
-        int[] newArrayTask1 = tasks.insertNumber(arrayTask1, 5, 6 );
+        int[] newArrayTask1 = tasks.insertNumber(arrayTask1, 1, 1);
         tasks.printArray(newArrayTask1);
         System.out.println();
 
