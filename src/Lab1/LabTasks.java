@@ -10,6 +10,15 @@ public class LabTasks {
     Метод повинен повертати новий масив.
     */
     public int[] insertNumber(int[] array, int number, int index) {
+        if (index > array.length - 1) {
+            int[] newArr = new int[index + 1];
+            for (int i = 0; i < array.length; i++) {
+                newArr[i] = array[i];
+            }
+            newArr[index] = number;
+            return newArr;
+        }
+
         int[] newArr = new int[array.length + 1];
         for (int i = 0, j = 0; i < newArr.length; i++, j++) {
             if (i == index) {
@@ -20,6 +29,32 @@ public class LabTasks {
             newArr[i] = array[j];
         }
         return newArr;
+    }
+
+    public int[] insertNumberNew(int[] array, int number, int index) {
+        int[] newArr = new int[array.length + 1];
+        for (int i = 0; i < newArr.length; i++) {
+            if (i < index) {
+                newArr[i] = array[i];
+            } else if (i == index) {
+                newArr[i] = number;
+                continue;
+            }
+            else {
+                newArr[i] = array[i-1];
+            }
+        }
+        return newArr;
+    }
+
+    public int sumGreaterSix(int[] array) {
+        int sum = 0;
+        for (int num: array) {
+            if (num > 6) {
+                sum += num;
+            }
+        }
+        return sum;
     }
 
     // Task 5

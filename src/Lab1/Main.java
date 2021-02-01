@@ -1,6 +1,4 @@
-package com.company;
-
-import Lab1.LabTasks;
+package Lab1;
 
 import java.util.Hashtable;
 
