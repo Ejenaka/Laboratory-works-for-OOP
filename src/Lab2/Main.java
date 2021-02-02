@@ -6,6 +6,7 @@ import Lab2.UserCore.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,7 +34,7 @@ public class Main {
                     format.parse("10.10.2018"),
                     RadioElectronicType.PHONE,
                     format.parse("10.10.2023")
-                    );
+            );
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -43,13 +44,22 @@ public class Main {
 
         // Task 35
         int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        LabMethods.map(array, (x)->x*2);
+        LabMethods methods = new LabMethods();
+        methods.map(array, (x)->x*2);
         System.out.println(Arrays.toString(array));
 
         // Task 54
         String[] strings = {"look", "couch", "car", "keyboard", "mouse", "dust"};
 
         Arrays.sort(strings, new StringLengthComparator());
+        System.out.println(Arrays.toString(strings));
+
+        Arrays.sort(strings, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.length() - o2.length();
+            }
+        });
         System.out.println(Arrays.toString(strings));
 
         Arrays.sort(strings, new StringThirdCharComparator());
@@ -85,9 +95,9 @@ public class Main {
 
         // Task 33
         Position professor = Position.PROFESSOR;
-        LabMethods.printPositionInfo(professor);
+        methods.printPositionInfo(professor);
         professor.setSalary(15000);
         professor.setVacationDaysCount(20);
-        LabMethods.printPositionInfo(professor);
+        methods.printPositionInfo(professor);
     }
 }
