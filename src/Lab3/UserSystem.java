@@ -27,7 +27,7 @@ public class UserSystem {
         if (users.contains(user)) {
             authorizedUsers.add(user);
         } else {
-            System.out.println("This user is not signed up");
+            System.out.println("User " + user.username + " is not signed up");
         }
     }
 
