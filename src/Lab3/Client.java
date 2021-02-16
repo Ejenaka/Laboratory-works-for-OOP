@@ -45,11 +45,7 @@ public class Client extends User {
         }
     }
 
-    public void uploadOrder() {
-
-    }
-
-    public void orderMedicines(Set<Medicine> medicines) {
-
+    public HashSet<Medicine> uploadOrder() {
+        return medicineList;
     }
 }
