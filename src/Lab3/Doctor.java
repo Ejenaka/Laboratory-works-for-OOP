@@ -1,5 +1,6 @@
 package Lab3;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ public class Doctor extends User {
         super(name, username, password);
     }
 
-    public void viewMedicine(Medicine medicine) {
+    private void viewMedicine(Medicine medicine) {
         if (medicine.isRequireDoctor) {
             System.out.println("Accept medicine: " + medicine.name + " ?");
             Scanner scanner = new Scanner(System.in);
@@ -19,7 +20,7 @@ public class Doctor extends User {
         }
     }
 
-    public void viewAndAcceptMedicines(HashSet<Medicine> medicines) {
+    public void viewAndAcceptMedicines(ArrayList<Medicine> medicines) {
         for (Medicine medicine: medicines) {
             viewMedicine(medicine);
         }

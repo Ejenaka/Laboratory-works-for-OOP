@@ -1,14 +1,13 @@
 package Lab3;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 public class Client extends User {
-    private HashSet<Medicine> medicineList;
+    private ArrayList<Medicine> medicineList;
 
     public Client(String name, String username, String password) {
         super(name, username, password);
-        medicineList = new HashSet<>();
+        medicineList = new ArrayList<>();
     }
 
     public Medicine findMedicineByName(String name) {
@@ -45,7 +44,7 @@ public class Client extends User {
         }
     }
 
-    public HashSet<Medicine> uploadOrder() {
+    public ArrayList<Medicine> uploadOrder() {
         return medicineList;
     }
 }

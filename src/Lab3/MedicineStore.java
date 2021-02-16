@@ -1,18 +1,18 @@
 package Lab3;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class MedicineStore {
     private static MedicineStore instance;
-    private HashSet<Medicine> medicineStorage;
+    private ArrayList<Medicine> medicineStorage;
 
     private MedicineStore() {
-        medicineStorage = new HashSet<>();
+        medicineStorage = new ArrayList<>();
     }
 
     private MedicineStore(Medicine[] medicineStorage) {
-        this.medicineStorage = new HashSet<>(Arrays.asList(medicineStorage));
+        this.medicineStorage = new ArrayList<>(Arrays.asList(medicineStorage));
     }
 
     public static MedicineStore getInstance() {
@@ -29,15 +29,19 @@ public class MedicineStore {
         return instance;
     }
 
-    public Medicine getMedicineByName(String name) {
-        return medicineStorage.stream().filter(medicine -> medicine.name.equals(name)).findFirst().get();
+    public List<Medicine> getMedicineByName(String name) {
+        Object[] medicines = medicineStorage.stream().filter(medicine -> medicine.name.equals(name)).toArray();
+        if (medicines == null) {
+            throw new NullPointerException("Medicines not find");
+        }
+
     }
 
-    public Medicine getMedicineByPrice(int price) {
+    public List<Medicine> getMedicineByPrice(int price) {
         return medicineStorage.stream().filter(medicine -> medicine.price == price).findFirst().get();
     }
 
-    public Medicine getMedicineByProducer(String producer) {
+    public List<Medicine> getMedicineByProducer(String producer) {
         return medicineStorage.stream().filter(medicine -> medicine.producer.equals(producer)).findFirst().get();
     }
 
