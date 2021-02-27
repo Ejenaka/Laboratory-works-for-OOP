@@ -1,12 +1,10 @@
 package Lab3;
 
-import java.util.ArrayList;
-
 public abstract class User {
     protected String name;
     protected String username;
     private String password;
-    private MedicineStore medicineStore;
+    protected MedicineStore medicineStore;
     protected boolean isAuthorized = false;
 
     public User(String name, String username, String password) {
@@ -15,15 +13,21 @@ public abstract class User {
         this.password = password;
     }
 
-    public void signUp(String username, String password) {
+    public void signUp(MedicineStore medicineStore, String username, String password) throws Exception {
         if (this.username.equals(username) && this.password.equals(password)) {
-            UserSystem.getInstance().addUser(this);
+            this.medicineStore = medicineStore;
+            medicineStore.getUserSystem().addUser(this);
+        } else {
+            throw new Exception("Username and password don't match");
         }
     }
 
-    public void authorize(String username, String password) {
+    public void authorize(String username, String password) throws NullPointerException {
+        if (medicineStore == null) {
+            throw new NullPointerException("MedicineStore is null, user is not signed up");
+        }
         if (this.username.equals(username) && this.password.equals(password)) {
-            UserSystem.getInstance().authorizeUser(this);
+            medicineStore.getUserSystem().authorizeUser(this);
             isAuthorized = true;
         }
     }
