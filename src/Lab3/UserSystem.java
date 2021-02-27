@@ -7,16 +7,9 @@ public class UserSystem {
     private HashSet<User> users;
     private HashSet<User> authorizedUsers;
 
-    private UserSystem() {
+    public UserSystem() {
         users = new HashSet<>();
         authorizedUsers = new HashSet<>();
-    }
-
-    public static UserSystem getInstance() {
-        if (instance == null) {
-            return new UserSystem();
-        }
-        return instance;
     }
 
     public void addUser(User user) {
