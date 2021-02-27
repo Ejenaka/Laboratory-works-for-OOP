@@ -1,8 +1,9 @@
 package Lab3;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Client extends User {
+public class Client extends User implements MedicineGetable {
     private ArrayList<Medicine> medicineList;
 
     public Client(String name, String username, String password) {
@@ -10,21 +11,39 @@ public class Client extends User {
         medicineList = new ArrayList<>();
     }
 
-    public Medicine findMedicineByName(String name) {
-        return MedicineStore.getInstance().getMedicineByName(name);
+    @Override
+    public List<Medicine> getMedicineByName(String name) {
+        return medicineStore.getMedicineByName(name);
     }
 
-    public Medicine findMedicineByPrice(int price) {
-        return MedicineStore.getInstance().getMedicineByPrice(price);
+    @Override
+    public List<Medicine> getMedicineByPrice(int price) {
+        return medicineStore.getMedicineByPrice(price);
     }
 
-    public Medicine findMedicineByProducer(String producer) {
-        return MedicineStore.getInstance().getMedicineByProducer(producer);
+    @Override
+    public List<Medicine> getMedicineByProducer(String producer) {
+        return medicineStore.getMedicineByProducer(producer);
     }
 
-    public void orderMedicine(Medicine medicine) {
+    @Override
+    public Medicine getMedicine(String name, int price, String producer) {
+        return medicineStore.getMedicine(name, price, producer);
+    }
+
+    public void orderMedicine(Medicine medicine) throws Exception {
         if (super.isAuthorized) {
             medicineList.add(medicine);
+        } else {
+            throw new Exception("User is not authorized");
+        }
+    }
+
+    public void orderMedicine(List<Medicine> medicines) throws Exception {
+        if (super.isAuthorized) {
+            medicineList.addAll(medicines);
+        } else {
+            throw new Exception("User is not authorized");
         }
     }
 
