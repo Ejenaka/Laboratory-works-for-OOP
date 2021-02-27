@@ -3,7 +3,6 @@ package Lab3;
 import java.util.HashSet;
 
 public class UserSystem {
-    private static UserSystem instance;
     private HashSet<User> users;
     private HashSet<User> authorizedUsers;
 

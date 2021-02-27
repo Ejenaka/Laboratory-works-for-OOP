@@ -1,9 +1,12 @@
 package Lab3;
 
+import java.util.ArrayList;
+
 public abstract class User {
     protected String name;
     protected String username;
     private String password;
+    private MedicineStore medicineStore;
     protected boolean isAuthorized = false;
 
     public User(String name, String username, String password) {
