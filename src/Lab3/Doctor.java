@@ -1,12 +1,17 @@
 package Lab3;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class Doctor extends User {
     public Doctor(String name, String username, String password) {
         super(name, username, password);
+    }
+
+    public void viewAndAcceptMedicines(ArrayList<Medicine> medicines) {
+        for (Medicine medicine: medicines) {
+            viewMedicine(medicine);
+        }
     }
 
     private void viewMedicine(Medicine medicine) {
@@ -19,12 +24,4 @@ public class Doctor extends User {
             }
         }
     }
-
-    public void viewAndAcceptMedicines(ArrayList<Medicine> medicines) {
-        for (Medicine medicine: medicines) {
-            viewMedicine(medicine);
-        }
-    }
-
-
 }
