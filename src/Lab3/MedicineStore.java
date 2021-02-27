@@ -4,29 +4,14 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class MedicineStore {
-    private static MedicineStore instance;
     private ArrayList<Medicine> medicineStorage;
 
-    private MedicineStore() {
+    public MedicineStore() {
         medicineStorage = new ArrayList<>();
     }
 
-    private MedicineStore(Medicine[] medicineStorage) {
+    public MedicineStore(Medicine[] medicineStorage) {
         this.medicineStorage = new ArrayList<>(Arrays.asList(medicineStorage));
-    }
-
-    public static MedicineStore getInstance() {
-        if (instance == null) {
-            return new MedicineStore();
-        }
-        return instance;
-    }
-
-    public static MedicineStore getInstance(Medicine[] medicineStorage) {
-        if (instance == null) {
-            return new MedicineStore(medicineStorage);
-        }
-        return instance;
     }
 
     public List<Medicine> getMedicineByName(String name) {
