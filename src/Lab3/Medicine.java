@@ -12,4 +12,19 @@ public class Medicine {
         this.producer = producer;
         this.isRequireDoctor = isRequireDoctor;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return false;
+        if (obj == null || this.getClass() != obj.getClass())
+            return false;
+
+        Medicine medicine = (Medicine) obj;
+
+        return name.equals(medicine.name)
+                && price == medicine.price
+                && producer.equals(medicine.producer)
+                && isRequireDoctor == medicine.isRequireDoctor;
+    }
 }
