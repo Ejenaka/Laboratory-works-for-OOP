@@ -17,6 +17,10 @@ public class MedicineStore implements MedicineGetable{
         this.medicineStorage = new ArrayList<>(Arrays.asList(medicineStorage));
     }
 
+    public List<Medicine> getMedicineStorage() {
+        return medicineStorage;
+    }
+
     public void applyMedicines(Medicine[] medicines) {
         medicineStorage.addAll(List.of(medicines));
     }
