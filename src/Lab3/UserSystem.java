@@ -1,6 +1,7 @@
 package Lab3;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class UserSystem {
     private HashSet<User> users;
@@ -21,6 +22,10 @@ public class UserSystem {
         } else {
             System.out.println("User " + user.username + " is not signed up");
         }
+    }
+
+    public Set<User> getUsers() {
+        return users;
     }
 
 }
