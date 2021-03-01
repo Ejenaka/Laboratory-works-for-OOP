@@ -13,6 +13,14 @@ public abstract class User {
         this.password = password;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void signUp(MedicineStore medicineStore, String username, String password) throws Exception {
         if (this.username.equals(username) && this.password.equals(password)) {
             this.medicineStore = medicineStore;
@@ -30,5 +38,19 @@ public abstract class User {
             medicineStore.getUserSystem().authorizeUser(this);
             isAuthorized = true;
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || this.getClass() != obj.getClass())
+            return false;
+
+        User other = (User) obj;
+
+        return name.equals(other.name) && username.equals(other.username) &&
+                password.equals(other.password) && medicineStore == other.medicineStore &&
+                isAuthorized == other.isAuthorized;
     }
 }
