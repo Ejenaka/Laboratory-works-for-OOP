@@ -28,4 +28,7 @@ public class UserSystem {
         return users;
     }
 
+    public Set<User> getAuthorizedUsers() {
+        return authorizedUsers;
+    }
 }
