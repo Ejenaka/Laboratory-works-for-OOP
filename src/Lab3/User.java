@@ -30,7 +30,7 @@ public abstract class User {
         }
     }
 
-    public void authorize(String username, String password) throws NullPointerException {
+    public void authorize(String username, String password) throws Exception {
         if (medicineStore == null) {
             throw new NullPointerException("MedicineStore is null, user is not signed up");
         }

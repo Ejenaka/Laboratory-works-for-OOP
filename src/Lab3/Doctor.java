@@ -1,6 +1,6 @@
 package Lab3;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Doctor extends User {
@@ -8,7 +8,7 @@ public class Doctor extends User {
         super(name, username, password);
     }
 
-    public void viewAndAcceptMedicines(ArrayList<Medicine> medicines) {
+    public void viewAndAcceptMedicines(List<Medicine> medicines) {
         for (Medicine medicine: medicines) {
             viewMedicine(medicine);
         }

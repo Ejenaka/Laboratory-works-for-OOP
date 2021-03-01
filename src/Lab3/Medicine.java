@@ -13,6 +13,18 @@ public class Medicine {
         this.isRequireDoctor = isRequireDoctor;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getProducer() {
+        return producer;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)

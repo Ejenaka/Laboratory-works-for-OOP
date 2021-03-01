@@ -27,7 +27,7 @@ public class Main {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        ArrayList<Medicine> order = petrov.uploadOrder();
+        List<Medicine> order = petrov.uploadOrder();
         Doctor doctor = new Doctor("doc", "superdoc", "doc123");
         doctor.viewAndAcceptMedicines(order);
     }

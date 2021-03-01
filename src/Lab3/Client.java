@@ -63,7 +63,7 @@ public class Client extends User implements MedicineGetable {
         }
     }
 
-    public ArrayList<Medicine> uploadOrder() {
+    public List<Medicine> uploadOrder() {
         return medicineList;
     }
 }
