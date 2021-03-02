@@ -50,7 +50,7 @@ class MedicineStoreTest {
     void getUserSystem() {
         MedicineStore medicineStore = new MedicineStore();
         applyUsersToSystem(medicineStore, testUsers);
-        assertIterableEquals(testUsers, medicineStore.getUserSystem().getUsers());
+        assertEquals(testUsers, medicineStore.getUserSystem().getUsers());
     }
 
     @Test

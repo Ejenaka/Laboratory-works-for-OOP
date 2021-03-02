@@ -25,6 +25,18 @@ class ClientTest {
             new Doctor("Artem", "doc", "pass3")
     );
 
+    private User getTestUserByUserName(String username) {
+        Optional<User> userOpt = testUsers
+                                 .stream()
+                                 .filter(user -> user.getUsername().equals(username))
+                                 .findFirst();
+        if (userOpt.isPresent()) {
+            return userOpt.get();
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
     private User getTestUserByIndex(int index) {
         return testUsers.toArray(new User[0])[index];
     }
