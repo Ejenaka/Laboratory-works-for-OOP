@@ -80,11 +80,20 @@ class ClientTest {
         } catch (Exception ex) {
             fail(ex.getMessage());
         }
-        Medicine testMedicine = new Medicine("testMed", 400, "testProd", false);
+        Medicine testMedicine = new Medicine("testMed2", 400, "testProd", false);
         testClient.editOrder(testMedicine, EditOrderOption.ADD);
         assertEquals(testMedicine, getTestMedicineByName(testClient.uploadOrder(), testMedicine.getName()));
-        
+
+        checkMedicinesByName(testClient.uploadOrder(),"testMed");
+        System.out.println(testClient.uploadOrder().toString());
+        testClient.editOrder(testMedicine, EditOrderOption.REMOVE);
+        System.out.println(testClient.uploadOrder().toString());
+        try {
+            Medicine med = getTestMedicineByName(testClient.uploadOrder(), testMedicine.getName());
+        } catch (NoSuchElementException ignored) { return; }
+        fail("Order is not edited");
     }
+
 
     private Medicine getTestMedicineByName(List<Medicine> medicines, String medicineName) {
         Optional<Medicine> medicineOpt = medicines.stream()
@@ -97,7 +106,10 @@ class ClientTest {
         }
     }
 
-    @Test
-    void uploadOrder() {
+    private void checkMedicinesByName(List<Medicine> medicines, String name) {
+        for (Medicine med : medicines) {
+            if (name.equals(med.getName()))
+                System.out.println(med.toString() + " " + med.getName());
+        }
     }
 }
