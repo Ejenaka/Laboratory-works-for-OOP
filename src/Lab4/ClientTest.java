@@ -59,7 +59,7 @@ class ClientTest {
     @Test
     void orderMedicine() {
         MedicineStore testMedicineStore = new MedicineStore();
-        Client testClient = (Client) getTestUserByIndex(1);
+        Client testClient = (Client) getTestUserByName("cl1");
         signUpAndAuthorizeTestUser(testClient, testMedicineStore);
         try {
             testClient.orderMedicine(testMedicines);
@@ -69,10 +69,22 @@ class ClientTest {
         assertIterableEquals(testMedicines, testClient.uploadOrder());
     }
 
+    private User getTestUserByName(String name) {
+        Optional<User> userOpt = testUsers
+                .stream()
+                .filter(user -> user.getUsername().equals(name))
+                .findFirst();
+
+        if (userOpt.isPresent())
+            return userOpt.get();
+        else
+            throw new NoSuchElementException();
+    }
+
     @Test
     void editOrder() {
         MedicineStore testMedicineStore = new MedicineStore();
-        Client testClient = (Client) getTestUserByIndex(1);
+        Client testClient = (Client) getTestUserByName("cl1");
         signUpAndAuthorizeTestUser(testClient, testMedicineStore);
         try {
             testClient.orderMedicine(testMedicines);
@@ -84,14 +96,14 @@ class ClientTest {
         testClient.editOrder(testMedicine, EditOrderOption.ADD);
         assertEquals(testMedicine, getTestMedicineByName(testClient.uploadOrder(), testMedicine.getName()));
 
-        checkMedicinesByName(testClient.uploadOrder(),"testMed");
-        System.out.println(testClient.uploadOrder().toString());
         testClient.editOrder(testMedicine, EditOrderOption.REMOVE);
-        System.out.println(testClient.uploadOrder().toString());
         try {
             Medicine med = getTestMedicineByName(testClient.uploadOrder(), testMedicine.getName());
         } catch (NoSuchElementException ignored) { return; }
         fail("Order is not edited");
+
+        testClient.editOrder(testMedicine, EditOrderOption.CLEAR);
+        assertTrue(testClient.uploadOrder().isEmpty());
     }
 
 
@@ -103,13 +115,6 @@ class ClientTest {
             return medicineOpt.get();
         } else {
             throw new NoSuchElementException();
-        }
-    }
-
-    private void checkMedicinesByName(List<Medicine> medicines, String name) {
-        for (Medicine med : medicines) {
-            if (name.equals(med.getName()))
-                System.out.println(med.toString() + " " + med.getName());
         }
     }
 }

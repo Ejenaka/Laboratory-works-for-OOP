@@ -10,18 +10,9 @@ public class Doctor extends User {
 
     public void viewAndAcceptMedicines(List<Medicine> medicines) {
         for (Medicine medicine: medicines) {
-            viewMedicine(medicine);
+            acceptMedicine(medicine);
         }
     }
 
-    private void viewMedicine(Medicine medicine) {
-        if (medicine.isRequireDoctor) {
-            System.out.println("Accept medicine: " + medicine.name + " ?");
-            Scanner scanner = new Scanner(System.in);
-            boolean flag = scanner.nextBoolean();
-            if (!flag) {
-                System.out.println(medicine.name + " is not accepted");
-            }
-        }
-    }
+    private void acceptMedicine(Medicine medicine) { }
 }
