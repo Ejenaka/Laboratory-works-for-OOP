@@ -13,10 +13,11 @@ public class PractsFunctions {
         return maxDigitSumNumber;
     }
 
-    public int getDigitSum(int num) {
+    private int getDigitSum(int num) {
         if (num < 10 ) {
             return num;
         }
         return num % 10 + getDigitSum(num / 10);
     }
+
 }

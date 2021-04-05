@@ -30,7 +30,7 @@ public class MedicineStore implements MedicineGetable{
     }
 
     @Override
-    public List<Medicine> getMedicineByName(String name) throws NoSuchElementException {
+    public List<Medicine> getMedicineByName(String name) {
         List<Medicine> searchResult = medicineStorage.stream()
                 .filter(medicine -> medicine.name.equals(name))
                 .collect(Collectors.toList());
@@ -38,13 +38,13 @@ public class MedicineStore implements MedicineGetable{
         if (!searchResult.isEmpty()) {
             return searchResult;
         } else {
-            throw new NoSuchElementException("Couldn't find these medicines");
+            return new ArrayList<>();
         }
 
     }
 
     @Override
-    public List<Medicine> getMedicineByPrice(int price) throws NoSuchElementException {
+    public List<Medicine> getMedicineByPrice(int price)  {
         List<Medicine> searchResult = medicineStorage.stream()
                 .filter(medicine -> medicine.price == price)
                 .collect(Collectors.toList());
@@ -52,12 +52,12 @@ public class MedicineStore implements MedicineGetable{
         if (!searchResult.isEmpty()) {
             return searchResult;
         } else {
-            throw new NoSuchElementException("Couldn't find these medicines");
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public List<Medicine> getMedicineByProducer(String producer) throws NoSuchElementException {
+    public List<Medicine> getMedicineByProducer(String producer) {
         List<Medicine> searchResult = medicineStorage.stream()
                 .filter(medicine -> medicine.producer.equals(producer))
                 .collect(Collectors.toList());
@@ -65,7 +65,7 @@ public class MedicineStore implements MedicineGetable{
         if (!searchResult.isEmpty()) {
             return searchResult;
         } else {
-            throw new NoSuchElementException("Couldn't find these medicines");
+            return new ArrayList<>();
         }
     }
 

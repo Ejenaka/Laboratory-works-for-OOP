@@ -1,6 +1,7 @@
 package Lab3;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class UserSystem {
@@ -12,15 +13,31 @@ public class UserSystem {
         authorizedUsers = new HashSet<>();
     }
 
-    public void addUser(User user) {
+    public boolean addUser(User user) {
+        if (hasUser(user)) {
+            return false;
+        }
         users.add(user);
+        return true;
     }
 
-    public void authorizeUser(User user) throws Exception {
-        if (users.contains(user))
+    private boolean hasUser(User user) {
+        Optional<User> userOpt = users
+                .stream()
+                .filter(u -> u.getUsername().equals(user.getUsername()))
+                .findFirst();
+
+        return userOpt.isPresent();
+    }
+
+    public boolean authorizeUser(User user) {
+        if (users.contains(user)) {
             authorizedUsers.add(user);
-        else
-            throw new Exception("User " + user.username + " is not signed up");
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public Set<User> getUsers() {

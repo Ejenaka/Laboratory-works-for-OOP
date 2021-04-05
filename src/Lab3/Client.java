@@ -31,20 +31,20 @@ public class Client extends User implements MedicineGetable {
         return medicineStore.getMedicine(name, price, producer);
     }
 
-    public void orderMedicine(Medicine medicine) throws Exception {
+    public boolean orderMedicine(Medicine medicine) {
         if (super.isAuthorized) {
             medicineList.add(medicine);
-        } else {
-            throw new Exception("User is not authorized");
+            return true;
         }
+        return false;
     }
 
-    public void orderMedicine(List<Medicine> medicines) throws Exception {
+    public boolean orderMedicine(List<Medicine> medicines) {
         if (super.isAuthorized) {
             medicineList.addAll(medicines);
-        } else {
-            throw new Exception("User is not authorized");
+            return true;
         }
+        return false;
     }
 
     public void editOrder(Medicine medicine, EditOrderOption option) {

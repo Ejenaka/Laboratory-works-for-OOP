@@ -1,5 +1,7 @@
 package Lab3;
 
+import java.util.Objects;
+
 public abstract class User {
     protected String name;
     protected String username;
@@ -21,23 +23,25 @@ public abstract class User {
         return password;
     }
 
-    public void signUp(MedicineStore medicineStore, String username, String password) throws Exception {
+    public boolean signUp(MedicineStore medicineStore, String username, String password) {
         if (this.username.equals(username) && this.password.equals(password)) {
             this.medicineStore = medicineStore;
             medicineStore.getUserSystem().addUser(this);
-        } else {
-            throw new Exception("Username and password don't match");
+            return true;
         }
+        return false;
     }
 
-    public void authorize(String username, String password) throws Exception {
+    public boolean authorize(String username, String password) {
         if (medicineStore == null) {
-            throw new NullPointerException("MedicineStore is null, user is not signed up");
+            return false;
         }
         if (this.username.equals(username) && this.password.equals(password)) {
             medicineStore.getUserSystem().authorizeUser(this);
             isAuthorized = true;
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -52,5 +56,10 @@ public abstract class User {
         return name.equals(other.name) && username.equals(other.username) &&
                 password.equals(other.password) && medicineStore == other.medicineStore &&
                 isAuthorized == other.isAuthorized;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, username, password, medicineStore, isAuthorized);
     }
 }
