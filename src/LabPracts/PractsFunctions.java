@@ -2,6 +2,9 @@ package LabPracts;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class PractsFunctions {
     public int getMaxDigitSumNumber(int[] array) {
@@ -38,5 +41,25 @@ public class PractsFunctions {
         }
         return pairs.toArray(new Integer[0][0]);
     }
+
+    public int[] getMissingNumbers(int[] nums) {
+        Arrays.sort(nums);
+        //ArrayList<Integer> resultNumbers = new ArrayList<>();
+        int min = nums[0];
+        int max = nums[nums.length - 1];
+        int[] range = IntStream.range(min, max).toArray();
+        //System.out.println(Arrays.toString(range));
+        return Arrays.stream(range).filter(num -> !isPresentInArray(nums, num)).toArray();
+    }
+
+    private boolean isPresentInArray(int[] array, int num) {
+        for (int tmp : array) {
+            if (num == tmp) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
