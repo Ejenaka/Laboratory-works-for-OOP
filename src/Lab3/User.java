@@ -3,6 +3,7 @@ package Lab3;
 import java.util.Objects;
 
 public abstract class User {
+    private int id;
     protected String name;
     protected String username;
     private String password;
@@ -13,6 +14,22 @@ public abstract class User {
         this.name = name;
         this.username = username;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUsername() {
