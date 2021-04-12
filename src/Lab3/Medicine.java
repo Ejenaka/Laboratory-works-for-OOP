@@ -1,6 +1,7 @@
 package Lab3;
 
 public class Medicine {
+    private int id = -1;
     protected String name;
     protected int price;
     protected String producer;
@@ -13,6 +14,14 @@ public class Medicine {
         this.isRequireDoctor = isRequireDoctor;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -23,6 +32,14 @@ public class Medicine {
 
     public String getProducer() {
         return producer;
+    }
+
+    public boolean isRequireDoctor() {
+        return isRequireDoctor;
+    }
+
+    public void setRequireDoctor(boolean requireDoctor) {
+        isRequireDoctor = requireDoctor;
     }
 
     @Override
