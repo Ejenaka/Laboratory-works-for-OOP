@@ -12,7 +12,7 @@ public interface DAO<T> {
     T findById(int id);
     List<T> getAll();
 
-    default Connection getConnection() throws SQLException {
+    default Connection getDefaultConnection() throws SQLException {
         return DriverManager.getConnection("jdbc:sqlite:E:/Student's life/ООП/mydatabase.db");
     }
 }

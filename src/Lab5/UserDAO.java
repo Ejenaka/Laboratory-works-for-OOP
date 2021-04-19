@@ -17,6 +17,14 @@ public class UserDAO implements DAO<User> {
         }
     }
 
+    public Connection getConnection() throws SQLException {
+        if (connection == null) {
+            connection = getDefaultConnection();
+        }
+
+        return connection;
+    }
+
     @Override
     public User create(User entity) {
         String query = "INSERT INTO Users (name, username, password) VALUES (?, ?, ?)";
@@ -79,10 +87,13 @@ public class UserDAO implements DAO<User> {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
+            int foundId = resultSet.getInt("id");
             String name = resultSet.getString("name");
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
+
             foundUser = new User(name, username, password) {};
+            foundUser.setId(foundId);
         } catch (SQLException e) {
             e.printStackTrace();
         }

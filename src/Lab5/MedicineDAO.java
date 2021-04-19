@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MedicineDAO implements DAO<Medicine>, MedicineGetable {
-    Connection connection;
+    static Connection connection;
 
     public MedicineDAO() {
         try {
@@ -18,18 +18,27 @@ public class MedicineDAO implements DAO<Medicine>, MedicineGetable {
         }
     }
 
+    public Connection getConnection() throws SQLException {
+        if (connection == null) {
+            connection = getDefaultConnection();
+        }
+
+        return connection;
+    }
+
     @Override
     public Medicine create(Medicine entity) {
-        String query = "INSERT INTO Medicines VALUES(?, ?, ?, ?)";
+        String query = "INSERT INTO Medicines(name, price, producer, requires_doctor_sign) VALUES(?, ?, ?, ?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, entity.getName());
             preparedStatement.setInt(2, entity.getPrice());
             preparedStatement.setString(3, entity.getProducer());
             preparedStatement.setBoolean(4, entity.isRequireDoctor());
+            preparedStatement.execute();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
-            entity.setId(resultSet.getInt("id"));
+            entity.setId(resultSet.getInt(1));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -100,7 +109,7 @@ public class MedicineDAO implements DAO<Medicine>, MedicineGetable {
     @Override
     public List<Medicine> getAll() {
         List<Medicine> medicines = null;
-        String query = "SELECT * FROM Medicine";
+        String query = "SELECT * FROM Medicines";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -133,11 +142,12 @@ public class MedicineDAO implements DAO<Medicine>, MedicineGetable {
     @Override
     public List<Medicine> getMedicineByName(String name) {
         List<Medicine> medicines = null;
-        String query = "SELECT * FROM Medicines WHERE name = " + name;
+        String query = "SELECT * FROM Medicines WHERE name = ?";
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, name);
 
+            ResultSet resultSet = preparedStatement.executeQuery();
             medicines = getMedicinesFromResultSet(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -165,10 +175,11 @@ public class MedicineDAO implements DAO<Medicine>, MedicineGetable {
     @Override
     public List<Medicine> getMedicineByProducer(String producer) {
         List<Medicine> medicines = null;
-        String query = "SELECT * FROM Medicines WHERE producer = " + producer;
+        String query = "SELECT * FROM Medicines WHERE producer = ?";
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, producer);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             medicines = getMedicinesFromResultSet(resultSet);
         } catch (SQLException e) {
@@ -181,7 +192,7 @@ public class MedicineDAO implements DAO<Medicine>, MedicineGetable {
     @Override
     public Medicine getMedicine(String name, int price, String producer) {
         Medicine medicine = null;
-        String query = "SELECT * FROM Medicines WHERE name = ? AND price = ? AND producer = ?";
+        String query = "SELECT * FROM Medicines WHERE name = ? AND price = ? AND producer = ? LIMIT 1";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
