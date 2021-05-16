@@ -1,7 +1,5 @@
 package Lab5;
 
-import Lab3.User;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

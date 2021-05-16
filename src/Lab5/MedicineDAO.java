@@ -1,8 +1,5 @@
 package Lab5;
 
-import Lab3.MedicineGetable;
-import Lab3.Medicine;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
