@@ -1,30 +1,41 @@
 package Lab6;
 
+import Lab5.Model.Medicine;
+import Lab5.Model.MedicineStore;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 public class Main extends JFrame{
+    private final MedicineStore medicineStore = new MedicineStore();
     private JPanel mainPanel;
-    private JButton findButton;
-    private JButton buyButton;
-    private JList medicinesList;
+    private JList<Medicine> medicinesList;
     private JButton addButton;
-    private JButton updateButton;
-   // private JComponent successText;
-
+    private JButton buyButton;
+    private JButton findButton;
 
     public Main(String title) {
         super(title);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
-        //this.successText.setVisible(false);
         this.pack();
-        findButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
+        DefaultListModel<Medicine> medicinesListModel = new DefaultListModel<>();
+        medicinesListModel.addAll(medicineStore.getMedicineStorage());
+        medicinesList.setModel(medicinesListModel);
+
+        buyButton.addActionListener(actionEvent -> {
+            Medicine selectedMedicine = medicinesList.getSelectedValue();
+            medicineStore.deleteMedicine(selectedMedicine);
+            medicinesListModel.removeElement(selectedMedicine);
+        });
+
+        findButton.addActionListener(actionEvent -> {
+            FindMedicineDialog dialog = new FindMedicineDialog();
+            dialog.pack();
+            dialog.setVisible(true);
         });
     }
 
@@ -33,4 +44,5 @@ public class Main extends JFrame{
         mainPanel.setBounds(615, 315, 750, 450);
         mainPanel.setVisible(true);
     }
+
 }

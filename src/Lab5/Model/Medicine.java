@@ -1,4 +1,4 @@
-package Lab5;
+package Lab5.Model;
 
 public class Medicine {
     private int id = -1;
@@ -55,5 +55,10 @@ public class Medicine {
                 && price == medicine.price
                 && producer.equals(medicine.producer)
                 && isRequireDoctor == medicine.isRequireDoctor;
+    }
+
+    @Override
+    public String toString() {
+        return name + " | Price: " + price + " | Producer: " + producer + " | Requires doctor sign: " + isRequireDoctor;
     }
 }

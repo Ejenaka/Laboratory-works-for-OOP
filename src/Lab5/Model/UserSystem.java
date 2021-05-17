@@ -1,4 +1,6 @@
-package Lab5;
+package Lab5.Model;
+
+import Lab5.DAO.UserDAO;
 
 import java.util.*;
 
@@ -14,8 +16,8 @@ public class UserSystem {
         if (hasUser(user)) {
             return false;
         }
-        users.add(user);
         usersDb.create(user);
+        usersDb.updateListFromDB(users);
 
         return true;
     }

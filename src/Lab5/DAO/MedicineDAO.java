@@ -1,4 +1,7 @@
-package Lab5;
+package Lab5.DAO;
+
+import Lab5.Model.Medicine;
+import Lab5.Model.MedicineGetable;
 
 import java.sql.*;
 import java.util.ArrayList;

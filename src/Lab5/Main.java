@@ -1,40 +1,28 @@
 package Lab5;
 
-import Lab3.Client;
-import Lab3.Doctor;
-import Lab3.Medicine;
-import Lab3.User;
+import Lab5.Model.*;
+import Lab5.DAO.MedicineDAO;
+import Lab5.DAO.UserDAO;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        UserDAO userDb = new UserDAO();
-        MedicineDAO medicineDb = new MedicineDAO();
+        MedicineStore store = new MedicineStore();
 
         User client = new Client("Petrov", "ClientPetrov", "pass1");
         User doctor = new Doctor("Ivanov", "DoctorIvanov", "pass2");
-//        client = userDb.create(client);
-//        doctor = userDb.create(doctor);
 
-        User foundUser = userDb.findById(2);
-        //System.out.println(foundUser.getName());
+        client.signUp(store, client.getUsername(), client.getPassword());
+        doctor.signUp(store, doctor.getUsername(), doctor.getPassword());
 
-        foundUser.setName("Dmitriy");
-        userDb.update(foundUser);
+        Client test = new Client("test", "test", "test");
+        test.signUp(store, "test", "test");
 
-        List<User> userList = userDb.getAll();
+        List<User> userList = store.getUserSystem().getUsers();
         for (User tmp : userList) {
             System.out.println(tmp.getName());
-        }
-
-        try {
-            userDb.getConnection().close();
-            System.out.println(userDb.getConnection().isClosed());
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         Medicine[] medicines = {
@@ -45,30 +33,28 @@ public class Main {
                 new Medicine("med5", 200, "prod3", false)
         };
 
-//        for (Medicine med : medicines) {
-//            medicineDb.create(med);
-//        }
+        for (Medicine med : medicines) {
+            store.addMedicine(med);
+        }
 
-        List<Medicine> medicinesFromDb = medicineDb.getAll();
+        List<Medicine> medicinesFromDb = store.getMedicineStorage();
         for (Medicine med : medicinesFromDb) {
             System.out.println(med.getName());
         }
 
         System.out.println("--------------------------");
-        Medicine foundMedicine = medicineDb.findById(52);
-        System.out.println(foundMedicine.getName());
 
-        //medicineDb.create(new Medicine("med1", 500, "prod3", false));
-        List<Medicine> foundByName = medicineDb.getMedicineByName("med1");
+        store.addMedicine(new Medicine("med1", 500, "prod3", false));
+        List<Medicine> foundByName = store.getMedicineByName("med1");
         System.out.println(foundByName.toString());
 
-        List<Medicine> foundByPrice = medicineDb.getMedicineByPrice(200);
+        List<Medicine> foundByPrice = store.getMedicineByPrice(200);
         System.out.println(foundByPrice.toString());
 
-        List<Medicine> foundByProducer = medicineDb.getMedicineByProducer("prod3");
+        List<Medicine> foundByProducer = store.getMedicineByProducer("prod3");
         System.out.println(foundByProducer.toString());
 
-        Medicine found = medicineDb.getMedicine("med1", 100, "prod1");
+        Medicine found = store.getMedicine("med1", 100, "prod1");
         System.out.println(found.getName() + " " + found.getPrice() + " " + found.getProducer());
     }
 }

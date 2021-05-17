@@ -1,4 +1,6 @@
-package Lab5;
+package Lab5.Model;
+
+import Lab5.DAO.MedicineDAO;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,8 +20,8 @@ public class MedicineStore implements MedicineGetable {
     }
 
     public void addMedicine(Medicine medicine) {
-        medicineStorage.add(medicine);
         medicinesDb.create(medicine);
+        medicinesDb.updateListFromDB(medicineStorage);
     }
 
     public UserSystem getUserSystem() {
@@ -83,8 +85,8 @@ public class MedicineStore implements MedicineGetable {
 
     public void deleteMedicine(Medicine medicine) {
         Medicine foundMedicine = getMedicine(medicine.name, medicine.price, medicine.producer);
-        medicineStorage.remove(foundMedicine);
         medicinesDb.delete(foundMedicine.getId());
+        medicinesDb.updateListFromDB(medicineStorage);
     }
 
 }

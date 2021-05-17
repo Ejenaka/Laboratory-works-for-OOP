@@ -1,4 +1,4 @@
-package Lab5;
+package Lab5.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,20 +31,12 @@ public class Client extends User implements MedicineGetable {
         return medicineStore.getMedicine(name, price, producer);
     }
 
-    public boolean orderMedicine(Medicine medicine) {
-        if (super.isAuthorized) {
-            medicineList.add(medicine);
-            return true;
-        }
-        return false;
+    public void orderMedicine(Medicine medicine) {
+        medicineList.add(medicine);
     }
 
-    public boolean orderMedicine(List<Medicine> medicines) {
-        if (super.isAuthorized) {
-            medicineList.addAll(medicines);
-            return true;
-        }
-        return false;
+    public void orderMedicine(List<Medicine> medicines) {
+        medicineList.addAll(medicines);
     }
 
     public void editOrder(Medicine medicine, EditOrderOption option) {
@@ -63,7 +55,7 @@ public class Client extends User implements MedicineGetable {
         }
     }
 
-    public List<Medicine> uploadOrder() {
+    public List<Medicine> getOrder() {
         return medicineList;
     }
 }

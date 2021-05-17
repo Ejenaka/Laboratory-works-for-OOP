@@ -1,4 +1,6 @@
-package Lab5;
+package Lab5.DAO;
+
+import Lab5.Model.User;
 
 import java.sql.*;
 import java.util.ArrayList;

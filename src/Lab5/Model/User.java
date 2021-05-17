@@ -1,4 +1,4 @@
-package Lab5;
+package Lab5.Model;
 
 import java.util.Objects;
 
@@ -8,7 +8,6 @@ public abstract class User {
     protected String username;
     private String password;
     protected MedicineStore medicineStore;
-    protected boolean isAuthorized = false;
 
     public User(String name, String username, String password) {
         this.name = name;
@@ -59,12 +58,11 @@ public abstract class User {
         User other = (User) obj;
 
         return name.equals(other.name) && username.equals(other.username) &&
-                password.equals(other.password) && medicineStore == other.medicineStore &&
-                isAuthorized == other.isAuthorized;
+                password.equals(other.password) && medicineStore == other.medicineStore;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, username, password, medicineStore, isAuthorized);
+        return Objects.hash(name, username, password, medicineStore);
     }
 }
