@@ -15,6 +15,7 @@ public class Main extends JFrame{
     private JButton addButton;
     private JButton buyButton;
     private JButton findButton;
+    private JButton updateButton;
 
     public Main(String title) {
         super(title);
@@ -33,9 +34,21 @@ public class Main extends JFrame{
         });
 
         findButton.addActionListener(actionEvent -> {
-            FindMedicineDialog dialog = new FindMedicineDialog();
+            FindMedicineDialog dialog = new FindMedicineDialog(medicinesList);
             dialog.pack();
             dialog.setVisible(true);
+        });
+
+        addButton.addActionListener(actionEvent -> {
+            AddMedicineDialog dialog = new AddMedicineDialog(medicinesList);
+            dialog.pack();
+            dialog.setVisible(true);
+        });
+
+        updateButton.addActionListener(actionEvent -> {
+            medicinesListModel.clear();
+            medicinesListModel.addAll(medicineStore.getMedicineStorage());
+            medicinesList.setModel(medicinesListModel);
         });
     }
 

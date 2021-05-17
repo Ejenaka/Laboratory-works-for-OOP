@@ -2,11 +2,14 @@ package Lab6;
 
 import Lab5.Model.Medicine;
 import Lab5.Model.MedicineStore;
+import org.junit.platform.commons.function.Try;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class FindMedicineDialog extends JDialog {
     private final MedicineStore medicineStore = new MedicineStore();
@@ -20,16 +23,19 @@ public class FindMedicineDialog extends JDialog {
     private JLabel priceLabel;
     private JLabel producerLabel;
 
-    public FindMedicineDialog() {
+    public FindMedicineDialog(JList<Medicine> medicineList) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(e -> onOK());
+        buttonOK.addActionListener(e -> {
+            DefaultListModel<Medicine> model = new DefaultListModel<>();
+            model.addAll(findMedicinesFromDb());
+            medicineList.setModel(model);
+        });
 
         buttonCancel.addActionListener(e -> onCancel());
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -37,59 +43,41 @@ public class FindMedicineDialog extends JDialog {
             }
         });
 
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
+    private List<Medicine> findMedicinesFromDb() {
         List<Medicine> foundMedicines = new ArrayList<>();
-        if (producerField.toString() == null && priceField.toString() == null) {
-            foundMedicines = medicineStore.getMedicineByName(nameField.toString());
+        if (producerField.getText().isEmpty() && priceField.getText().isEmpty()) {
+            foundMedicines = medicineStore.getMedicineByName(nameField.getText());
         }
-        if (nameField.toString() == null && producerField.toString() == null) {
-
-            foundMedicines = medicineStore.getMedicineByPrice(tryParseIntegerFromTextField(priceField));
+        else if (nameField.getText().isEmpty() && producerField.getText().isEmpty()) {
+            foundMedicines = medicineStore.getMedicineByPrice(TryParser.tryParseFromTextField(this, priceField));
         }
-        if (nameField.toString() == null && priceField.toString() == null) {
-            foundMedicines = medicineStore.getMedicineByProducer(producerField.toString());
+        else if (nameField.getText().isEmpty() && priceField.getText().isEmpty()) {
+            foundMedicines = medicineStore.getMedicineByProducer(producerField.getText());
         }
-        if (nameField.toString() != null && priceField.toString() != null && producerField.toString() != null) {
-
-            foundMedicines.add(medicineStore.getMedicine(
-                    nameField.toString(),
-                    tryParseIntegerFromTextField(priceField),
-                    producerField.toString())
-            );
+        else if (!nameField.getText().isEmpty() && !priceField.getText().isEmpty() && !producerField.getText().isEmpty()) {
+            try {
+                foundMedicines.add(medicineStore.getMedicine(
+                        nameField.getText(),
+                        TryParser.tryParseFromTextField(this, priceField),
+                        producerField.getText())
+                );
+            } catch (NoSuchElementException e) {
+                JOptionPane.showMessageDialog(this, "No medicines are found");
+                return foundMedicines;
+            }
         }
         else {
             JOptionPane.showMessageDialog(this, "Invalid operation: at least 1 operation must be written");
         }
-        dispose();
-    }
 
-    private int tryParseIntegerFromTextField(JTextField field) {
-        int price = 0;
-        try {
-            price = Integer.parseInt(field.toString());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Price format error");
-        }
-        return price;
+        dispose();
+
+        return foundMedicines;
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        FindMedicineDialog dialog = new FindMedicineDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

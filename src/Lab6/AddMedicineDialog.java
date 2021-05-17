@@ -1,30 +1,38 @@
 package Lab6;
 
+import Lab5.Model.Medicine;
+import Lab5.Model.MedicineStore;
+
 import javax.swing.*;
 import java.awt.event.*;
 
 public class AddMedicineDialog extends JDialog {
+    private final MedicineStore medicineStore = new MedicineStore();
+    private JList<Medicine> medicineList;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JButton button1;
+    private JTextField nameField;
+    private JTextField priceField;
+    private JTextField producerField;
+    private JLabel nameLabel;
+    private JLabel priceLabel;
+    private JLabel producerLabel;
+    private JLabel doctorSignLabel;
+    private JRadioButton yesRadioButton;
+    private JRadioButton noRadioButton;
 
-    public AddMedicineDialog() {
+    public AddMedicineDialog(JList<Medicine> medicineList) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        this.medicineList = medicineList;
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> addMedicineToDB());
+        buttonCancel.addActionListener(e -> onCancel());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        yesRadioButton.addActionListener(e -> noRadioButton.setSelected(false));
+        noRadioButton.addActionListener(e -> yesRadioButton.setSelected(false));
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -33,29 +41,32 @@ public class AddMedicineDialog extends JDialog {
                 onCancel();
             }
         });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    private void addMedicineToDB() {
+        if (!nameField.getText().isEmpty() && !priceField.getText().isEmpty() && !producerField.getText().isEmpty()) {
+            String name = nameField.getText();
+            int price = TryParser.tryParseFromTextField(this, priceField);
+            String producer = producerField.getText();
+            boolean isRquireDoctor = getDoctorSignFromRadioButton();
+            Medicine medicine = new Medicine(name, price, producer, isRquireDoctor);
+
+            medicineStore.addMedicine(medicine);
+            DefaultListModel<Medicine> model = (DefaultListModel<Medicine>) medicineList.getModel();
+            model.addElement(medicine);
+
+            dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Fill all fields");
+        }
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
-    public static void main(String[] args) {
-        AddMedicineDialog dialog = new AddMedicineDialog();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
+    private boolean getDoctorSignFromRadioButton() {
+        return yesRadioButton.isSelected();
     }
 }
